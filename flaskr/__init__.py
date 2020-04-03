@@ -20,6 +20,6 @@ def create_app(test_config=None):
 
     @app.route('/')
     def route():
-        return 'Test'
+        return 'Welcome to the Rosetta backend server!'
 
     return app
