@@ -1,11 +1,13 @@
 import os
+from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from model import db
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
+    db.init_app(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
     if test_config is None:
