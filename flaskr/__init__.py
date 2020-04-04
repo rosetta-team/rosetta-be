@@ -1,7 +1,7 @@
 import os
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
-from model import db
+from .model import db
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
