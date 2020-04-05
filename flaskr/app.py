@@ -32,4 +32,4 @@ def create_app(test_config=None):
 
 app = create_app()
 db = SQLAlchemy(app)
-from model import Language
+from .model import Language
