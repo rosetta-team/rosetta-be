@@ -1,4 +1,1 @@
 Generic single-database configuration.
-initalize db: `python flaskr/manage.py db init`
-migrate db: `python flaskr/manage.py db migrate`
-refresh db: `python flaskr/manage.py db upgrade`
