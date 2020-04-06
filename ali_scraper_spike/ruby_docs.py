@@ -25,44 +25,35 @@ map = soup.find(id="map-method")
 def get_text(html_element):
     return html_element.text
 
-def make_description(description_text):
-    description = ""
-    for text in description_text:
-        description += get_text(text) + "\n"
-    return description
+def concat_strings(element_collection):
+    new_string = ""
+    for text in element_collection:
+        new_string += get_text(text) + "\n"
+    return new_string
 
-# to loop over all the methods and start doing something w/ them...
-
-# method_names = []
 methods = []
 for method in instance_methods:
     method_name = method.find('a')['name']
+    url = 'https://ruby-doc.org/core-2.6/Array.html#' + method_name
     method_call_seq = method.find_all('span', class_='method-callseq')
     if method_call_seq is None:
         method_call_seq = method.find('div', class_='method-heading').text
         args = method.find('div', class_='method-args')
         if args is not None:
             method_call_seq += args
-            # still missing 'append(*args)'
         method_call_seq
     else:
-        # method_call_seq = method_call_seq.text
-        method_call_seq = make_description(method_call_seq)
+        method_call_seq = concat_strings(method_call_seq)
 
     method_descriptions = method.find_all('p')
-    method_description = make_description(method_descriptions)
+    method_description = concat_strings(method_descriptions)
     code_snippet = method.find('pre', class_='ruby')
     if code_snippet is None:
         code_snippet = ''
     else:
         code_snippet = code_snippet.text
-#     # method_name = method.find('span', class_="method-callseq").text
-#     # if None in method_name:
-#         # method_name = method.find('span', class_="method-name").text
-    methods.append(Method(method_name, method_call_seq, method_description, code_snippet))
-    # method_names.append(method_name)
+    methods.append(Method(method_name, url, method_call_seq, method_description, code_snippet))
 
-# description_text = instance_methods[0].find_all('p')
 import code; code.interact(local=dict(globals(), **locals()))
 
 for i, val in enumerate(methods):
