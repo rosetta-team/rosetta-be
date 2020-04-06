@@ -19,7 +19,6 @@ for link in method_links[6:45]:
     description = link['title']
     if "deprecated" not in description:
         name = link.find('code').text
-        print(name)
         url = 'https://developer.mozilla.org/' + link['href']
         method_page = requests.get(url) #have to make another request to the new site
         method_soup = BeautifulSoup(method_page.content, 'html.parser')
@@ -31,7 +30,6 @@ for link in method_links[6:45]:
             call_seq = method_soup.find('pre').text
 
         edit_box = method_soup.find('iframe')
-        # import code; code.interact(local=dict(globals(), **locals()))
         if edit_box is not None:
             code_page = requests.get(edit_box['src'])
             code_soup = BeautifulSoup(code_page.content, 'html.parser')
@@ -40,12 +38,10 @@ for link in method_links[6:45]:
             if snippet_box is not None:
                 snippet = snippet_box.text
             else:
-                # snippet = method_soup.find('pre').text
                 example_header = method_soup.find('h2', string='Examples')
                 first_example = example_header.find_next_sibling('h3')
                 snippet = first_example.find_next_sibling('pre').text
         else:
-            # import code; code.interact(local=dict(globals(), **locals()))
             snippet = method_soup.find('pre').text
 
         #*************************************************************
