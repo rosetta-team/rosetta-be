@@ -17,11 +17,6 @@ def make_shell_context():
     return dict(app=app, db=db, Language=Language, Method=Method)
 manager.add_command('shell', Shell(make_context=make_shell_context))
 
-# super simple way to make a task from the CLI - remove before PR
-# @manager.command
-# def hello():
-#     print("hello")
-
 # helper methods used in the ruby method below
 def get_text(html_element):
     return html_element.text
@@ -31,9 +26,14 @@ def concat_strings(element_collection):
     for text in element_collection:
         new_string += get_text(text) + "\n"
     return new_string
-# before any of these commands can be run, Ruby and JS need to be the DB, in that order
+
 @manager.command
 def get_ruby_methods():
+    language = Language.query.filter_by(name='Ruby').first()
+    if language is None:
+        language = Language(name='Ruby')
+        db.session.add(language)
+        db.session.commit()
     URL = 'https://ruby-doc.org/core-2.6/Array.html'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -58,13 +58,17 @@ def get_ruby_methods():
             code_snippet = ''
         else:
             code_snippet = code_snippet.text
-        # NOTE: RUBY IS HARD CODED IN AS LANGUAGE ID 1
-        method = Method(name=method_name, docs_url=url, syntax=method_call_seq, description=method_description, snippet=code_snippet, language_id=1)
+        method = Method(name=method_name, docs_url=url, syntax=method_call_seq, description=method_description, snippet=code_snippet, language=language)
         db.session.add(method)
         db.session.commit()
 
 @manager.command
 def get_js_methods():
+    language = Language.query.filter_by(name='JavaScript').first()
+    if language is None:
+        language = Language(name='JavaScript')
+        db.session.add(language)
+        db.session.commit()
     URL = 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -98,8 +102,7 @@ def get_js_methods():
                     snippet = first_example.find_next_sibling('pre').text
             else:
                 snippet = method_soup.find('pre').text
-                # NOTE JAVASCRIPT IS HARD CODED IN AS LANGUAGE ID 2
-            method = Method(name=name, docs_url=url, syntax=call_seq, description=description, snippet=snippet, language_id=2)
+            method = Method(name=name, docs_url=url, syntax=call_seq, description=description, snippet=snippet, language=language)
             db.session.add(method)
             db.session.commit()
 
