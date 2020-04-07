@@ -11,18 +11,21 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      # - run: 
-      #     name: setup_exports
-      #     command: |
-      #         'export FLASK_APP=flaskr/app' >> $BASH_ENV
-      #         'export FLASK_ENV=development' >> $BASH_ENV
+      - run: 
+          name: setup_exports
+          command: |
+              export FLASK_APP=flaskr/app 
+              export FLASK_ENV=development 
+          # command: |
+          #     echo 'export FLASK_APP=flaskr/app' >> $BASH_ENV
+          #     echo 'export FLASK_ENV=development' >> $BASH_ENV
       - run:
           name: Test
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install pytest 
-            pytest
+            python -m pytest
 workflows:
   main:
     jobs:
