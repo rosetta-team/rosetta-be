@@ -24,7 +24,7 @@ jobs:
           command: |
             export FLASK_APP=flaskr/app 
             export FLASK_ENV=development 
-            python3 pytest
+            python3 -m pytest
 workflows:
   main:
     jobs:
