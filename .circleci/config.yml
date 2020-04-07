@@ -11,11 +11,11 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      - run: 
-          name: setup_exports
-          command: |
-              'export FLASK_APP=flaskr/app' >> $BASH_ENV
-              'export FLASK_ENV=development' >> $BASH_ENV
+      # - run: 
+      #     name: setup_exports
+      #     command: |
+      #         'export FLASK_APP=flaskr/app' >> $BASH_ENV
+      #         'export FLASK_ENV=development' >> $BASH_ENV
       - run:
           name: Test
           command: |
