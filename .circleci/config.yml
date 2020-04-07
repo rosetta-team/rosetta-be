@@ -16,7 +16,7 @@ jobs:
           command: |
             python3 -m venv venv
             . venv/bin/activate
-            py.test 
+            pytest 
 workflows:
   main:
     jobs:
