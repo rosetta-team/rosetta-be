@@ -17,7 +17,7 @@ jobs:
               echo 'export FLASK_APP=flaskr/app' >> $BASH_ENV
               echo 'export FLASK_ENV=development' >> $BASH_ENV
               source $BASH_ENV
-
+      - run:
           name: Test
           command: |
             python3 -m venv venv
