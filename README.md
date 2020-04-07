@@ -54,19 +54,21 @@
         ```
     - Enter SQL command to create empty database:
         ```
-        CREATE DATABASE rosetta_dev
+        CREATE DATABASE rosetta_dev;
         ```
 - Run migrations to add tables to database
+
     ```
     python flaskr/manage.py db upgrade
     ```
-<!-- I would suggest adding another task to add ruby and js to the DB  -->
-<!-- After those are there, then the following commands can be run  -->
-<!-- yikes do these need to be run upon deployment too? -->
-<!-- get all ruby methods -->
-<!-- `$ python flaskr/manage.py get_ruby_methods` -->
-<!-- get all JS methods -->
-<!-- `$ python flaskr/manage.py get_js_methods -->
+    - If you had to drop your DB in development, you will need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`
+
+- If you need to populate your database, run the following commands, but if possible, it's preferable to import this from an already populated database, such as the Rosetta production server database (to be added):
+   ```
+   python flaskr/manage.py get_ruby_methods
+   python flaskr/manage.py get_js_methods
+   ```
+
 ### Starting Flask
 
 - To run server on `localhost:5000`:
