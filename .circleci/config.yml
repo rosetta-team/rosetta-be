@@ -12,17 +12,19 @@ jobs:
       - python/install-deps
       - python/save-cache
       - run: 
-          name: setup_exports
-          command: |
-              export FLASK_APP=flaskr/app 
-              export FLASK_ENV=development 
+          # name: setup_exports
           # command: |
-          #     echo 'export FLASK_APP=flaskr/app' >> $BASH_ENV
-          #     echo 'export FLASK_ENV=development' >> $BASH_ENV
-      - run:
-          name: Test
+          #     export FLASK_APP=flaskr/app 
+          #     export FLASK_ENV=development 
+          # # command: |
+          # #     echo 'export FLASK_APP=flaskr/app' >> $BASH_ENV
+          # #     echo 'export FLASK_ENV=development' >> $BASH_ENV
+      # - run:
+          # name: Test
           command: |
-            pytest
+          export FLASK_APP=flaskr/app 
+          export FLASK_ENV=development 
+          pytest
 workflows:
   main:
     jobs:
