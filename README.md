@@ -59,8 +59,14 @@
 - Run migrations to add tables to database
     ```
     python flaskr/manage.py db upgrade
-    ``` 
-
+    ```
+<!-- I would suggest adding another task to add ruby and js to the DB  -->
+<!-- After those are there, then the following commands can be run  -->
+<!-- yikes do these need to be run upon deployment too? -->
+<!-- get all ruby methods -->
+<!-- `$ python flaskr/manage.py get_ruby_methods` -->
+<!-- get all JS methods -->
+<!-- `$ python flaskr/manage.py get_js_methods -->
 ### Starting Flask
 
 - To run server on `localhost:5000`:
