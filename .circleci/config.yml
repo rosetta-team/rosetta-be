@@ -22,9 +22,9 @@ jobs:
       # - run:
           # name: Test
           command: |
-          export FLASK_APP=flaskr/app 
-          export FLASK_ENV=development 
-          pytest
+            export FLASK_APP=flaskr/app 
+            export FLASK_ENV=development 
+            pytest
 workflows:
   main:
     jobs:
