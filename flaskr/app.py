@@ -1,36 +1,44 @@
-import os
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from flask import Flask
-
+from flask_sqlalchemy import SQLAlchemy
+import os
+from flask_migrate import Migrate
+import graphene
+from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
+from flask_graphql import GraphQLView
 # App factory method to create instance of Flask app
-def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config = True)
 
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@localhost:5432/rosetta_dev",
-        SQLALCHEMY_TRACK_MODIFICATIONS = False
-    )
+app = Flask(__name__)
+# app.debug = True
 
-    if test_config is None:
-        app.config.from_pyfile('config.py', silent=True)
-    else:
-        app.config.from_mapping(test_config)
+# basedir = os.path.abspath(os.path.dirname(__file__))
 
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/rosetta_dev"
+# app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_mapping(
+    SECRET_KEY='dev',
+    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@localhost:5432/rosetta_dev",
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+)
 
-    @app.route('/')
-    def root():
-        return 'Welcome to the Rosetta backend server!'
+    # if test_config is None:
+    #     app.config.from_pyfile('config.py', silent=True)
+    # else:
+    #     app.config.from_mapping(test_config)
+    #
+    # try:
+    #     os.makedirs(app.instance_path)
+    # except OSError:
+    #     pass
+    #
+    # @app.route('/')
+    # def root():
+    #     return 'Welcome to the Rosetta backend server!'
 
-    return app
+
 
 # Instantiate Flask app and SQLAlchemy ORM
-app = create_app()
+# app = create_app()
 db = SQLAlchemy(app)
 
 # Define models in relation to instantiated ORM
@@ -57,3 +65,37 @@ class Method(db.Model):
 
     def __repr__(self):
         return '<Method %r>' % self.name
+
+# schema objects
+class MethodObject(SQLAlchemyObjectType):
+    class Meta:
+        model = Method
+        interfaces = (graphene.relay.Node, )
+
+class LanguageObject(SQLAlchemyObjectType):
+    class Meta:
+        model = Language
+        interfaces = (graphene.relay.Node, )
+
+class Query(graphene.ObjectType):
+    node = graphene.relay.Node.Field()
+    all_methods = SQLAlchemyConnectionField(MethodObject)
+    all_languages = SQLAlchemyConnectionField(LanguageObject)
+
+schema = graphene.Schema(query=Query)
+
+@app.route('/')
+def root():
+    return 'Welcome to the Rosetta backend server!'
+
+app.add_url_rule(
+    '/graphql',
+    view_func=GraphQLView.as_view(
+        'graphql',
+        schema=schema,
+        graphiql=True # for having the GraphiQL interface
+    )
+)
+
+if __name__ == '__main__':
+     app.run()
