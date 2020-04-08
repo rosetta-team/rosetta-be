@@ -2,6 +2,10 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import Flask
+from flask_graphql import GraphQLView
+
+from .models import db_session
+from .schema import schema, Language
 
 # App factory method to create instance of Flask app
 def create_app(test_config=None):
@@ -13,6 +17,8 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS = False
     )
 
+
+
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -23,37 +29,26 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    #####
+    # this might be define a route?
+    app.add_url_rule(
+        '/graphql',
+        view_func=GraphQLView.as_view(
+            'graphql',
+            schema=schema,
+            graphiql=True # for having the GraphiQL interface
+        )
+    )
     @app.route('/')
     def root():
         return 'Welcome to the Rosetta backend server!'
+
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        db_session.remove()
 
     return app
 
 # Instantiate Flask app and SQLAlchemy ORM
 app = create_app()
 db = SQLAlchemy(app)
-
-# Define models in relation to instantiated ORM
-class Language(db.Model):
-    __tablename__ = 'languages'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String())
-    methods = db.relationship('Method', backref='language')
-
-    def __repr__(self):
-        return '<Language %r>' % self.name
-
-class Method(db.Model):
-    __tablename__ = 'methods'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    snippet = db.Column(db.Text)
-    syntax = db.Column(db.Text)
-    description = db.Column(db.Text)
-    docs_url = db.Column(db.String)
-    language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
-
-    def __repr__(self):
-        return '<Method %r>' % self.name
