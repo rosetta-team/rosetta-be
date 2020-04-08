@@ -1,18 +1,20 @@
 import os
 import graphene
+from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_graphql import GraphQLView
 
+load_dotenv()
 # App factory method to create instance of Flask app
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config = True)
 
     app.config.from_mapping(
         SECRET_KEY='dev',
-        SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@localhost:5432/rosetta_dev",
+        SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL"),
         SQLALCHEMY_TRACK_MODIFICATIONS = False
     )
 
