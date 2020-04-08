@@ -125,3 +125,73 @@
     }
   }
   ```
+  - To get the first 5 methods of the 1st language:
+  ```
+  {
+    allLanguages(first:1){
+      edges{
+        node{
+          name
+          methods(first:5) {
+            edges {
+              node {
+                name
+                description
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ```
+  Example Response:
+  ```js
+  {
+    "data": {
+      "allLanguages": {
+        "edges": [
+          {
+            "node": {
+              "name": "Ruby",
+              "methods": {
+                "edges": [
+                  {
+                    "node": {
+                      "name": "method-i-26",
+                      "description": "Set Intersection — Returns a new array containing unique elements common to\nthe two arrays. The order is preserved from the original array.\nIt compares elements using their hash and eql? methods for efficiency.\nSee also #uniq.\n"
+                    }
+                  },
+                  {
+                    "node": {
+                      "name": "method-i-2A",
+                      "description": "Repetition — With a String argument, equivalent\nto ary.join(str).\nOtherwise, returns a new array built by concatenating the int\ncopies of self.\n"
+                    }
+                  },
+                  {
+                    "node": {
+                      "name": "method-i-2B",
+                      "description": "Concatenation — Returns a new array built by concatenating the two arrays\ntogether to produce a third array.\nNote that\nis the same as\nThis means that it produces a new array. As a consequence, repeated use of\n+= on arrays can be quite inefficient.\nSee also #concat.\n"
+                    }
+                  },
+                  {
+                    "node": {
+                      "name": "method-i-2D",
+                      "description": "Array Difference\nReturns a new array that is a copy of the original array, removing any\nitems that also appear in other_ary. The order is preserved\nfrom the original array.\nIt compares elements using their hash and eql? methods for efficiency.\nIf you need set-like behavior, see the library class Set.\nSee also #difference.\n"
+                    }
+                  },
+                  {
+                    "node": {
+                      "name": "method-i-3C-3C",
+                      "description": "Append—Pushes the given object on to the end of this array. This expression\nreturns the array itself, so several appends may be chained together.\n"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+  ```
