@@ -79,3 +79,49 @@
     ```
     python flaskr/manage.py shell
     ```
+
+### Accessing GraphQL Endpoint
+(This is intended for current developers and will be edited before final docs are published)
+- Locally: `localhost:5000/graphql`
+   - This will bring up the GraphiQL interface
+   - To get all languages:
+   ```
+   {
+     allLanguages{
+       edges{
+         node{
+           name
+           id
+           }
+         }
+       }
+     }
+  ```
+  - To get all methods:
+  ```
+  {
+    allMethods{
+      edges{
+        node{
+          name
+          }
+        }
+      }
+    }
+  ```
+  - To get all methods with language node:
+  ```
+  {
+    allMethods{
+      edges{
+        node{
+          name
+          snippet
+          language {
+            name
+          }
+        }
+      }
+    }
+  }
+  ```
