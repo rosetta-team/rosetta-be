@@ -33,7 +33,7 @@ def concat_strings(element_collection):
     return new_string
 
 @manager.command
-def get_ruby_methods():
+def get_ruby_array_methods():
     language = Language.query.filter_by(name='Ruby').first()
     if language is None:
         language = Language(name='Ruby')
@@ -42,33 +42,40 @@ def get_ruby_methods():
     URL = 'https://ruby-doc.org/core-2.6/Array.html'
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
-    instance_methods_div = soup.find(id="public-instance-method-details")
-    instance_methods = instance_methods_div.find_all('div', class_='method-detail')
-    for method in instance_methods:
-        method_name = method.find('a')['name']
-        url = 'https://ruby-doc.org/core-2.6/Array.html#' + method_name
-        method_call_seq = method.find_all('span', class_='method-callseq')
-        if method_call_seq is None:
-            method_call_seq = method.find('div', class_='method-heading').text
-            args = method.find('div', class_='method-args')
+    methods_list = soup.find(id='method-list-section')
+    methods_collection = methods_list.find_all('a')
+
+    for method in methods_collection:
+        method_name = "Array" + method.text
+        url = 'https://ruby-doc.org/core-2.6/Array.html' + method['href']
+        method_div = soup.find('a', {'name':method['href'].strip('#')}).parent
+        method_call_seq = method_div.find_all('span', class_='method-callseq')
+        if not method_call_seq:
+            method_call_seq = method_div.find('span', class_='method-name').text
+            args = method_div.find('span', class_='method-args')
             if args is not None:
-                method_call_seq += args
+                method_call_seq += args.text
             method_call_seq
         else:
             method_call_seq = concat_strings(method_call_seq)
-        method_descriptions = method.find_all('p')
+
+        method_descriptions = method_div.find_all('p')
         method_description = concat_strings(method_descriptions)
-        code_snippet = method.find('pre', class_='ruby')
+        alias = method_div.find('div', class_='aliases')
+        if alias is not None:
+            method_description = method_description + alias.text.strip()
+        code_snippet = method_div.find('pre', class_='ruby')
         if code_snippet is None:
             code_snippet = ''
         else:
             code_snippet = code_snippet.text
-        method = Method(name=method_name, docs_url=url, syntax=method_call_seq, description=method_description, snippet=code_snippet, language=language)
-        db.session.add(method)
+        new_method = Method(name=method_name, docs_url=url, syntax=method_call_seq, description=method_description, snippet=code_snippet, language=language)
+
+        db.session.add(new_method)
         db.session.commit()
 
 @manager.command
-def get_js_methods():
+def get_js_array_methods():
     language = Language.query.filter_by(name='JavaScript').first()
     if language is None:
         language = Language(name='JavaScript')
