@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 import requests
 from bs4 import BeautifulSoup
 # Import application, database, and models
-from app import app, db, Language, Method
+from app import app, db, Language, Method, SearchResult, MethodResult
 
 # Instantiate Migrate and Manager
 migrate = Migrate(app, db)
@@ -14,7 +14,12 @@ manager = Manager(app)
 # Add command line arguments for database and shell with ORM context
 manager.add_command('db', MigrateCommand)
 def make_shell_context():
-    return dict(app=app, db=db, Language=Language, Method=Method)
+    return dict(app=app,
+                db=db,
+                Language=Language,
+                Method=Method,
+                SearchResult=SearchResult,
+                MethodResult=MethodResult)
 manager.add_command('shell', Shell(make_context=make_shell_context))
 
 # helper methods used in the ruby method below
