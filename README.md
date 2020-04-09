@@ -61,7 +61,8 @@
     ```
     python flaskr/manage.py db upgrade
     ```
-    - If you had to drop your DB in development, you will need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`
+    - If you encounter the error "Target database is not up to date," you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
+    - If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
 
 - If you need to populate your database, run the following commands, but if possible, it's preferable to import this from an already populated database, such as the Rosetta production server database (to be added):
    ```
