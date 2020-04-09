@@ -11,10 +11,11 @@ jobs:
       - python/load-cache
       - python/install-deps
       - python/save-cache
-      - run: 
+      - run:
           command: |
-            export FLASK_APP=flaskr/app 
-            export FLASK_ENV=development 
+            export FLASK_APP=flaskr/app
+            export FLASK_ENV=development
+            export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rosetta_dev" 
             python3 -m pytest
 workflows:
   main:
