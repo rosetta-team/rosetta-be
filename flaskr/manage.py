@@ -33,7 +33,7 @@ def concat_strings(element_collection):
     return new_string
 
 @manager.command
-def get_ruby_methods():
+def get_ruby_array_methods():
     language = Language.query.filter_by(name='Ruby').first()
     if language is None:
         language = Language(name='Ruby')
@@ -46,7 +46,7 @@ def get_ruby_methods():
     methods_collection = methods_list.find_all('a')
 
     for method in methods_collection:
-        method_name = method.text
+        method_name = "Array" + method.text
         url = 'https://ruby-doc.org/core-2.6/Array.html' + method['href']
         method_div = soup.find('a', {'name':method['href'].strip('#')}).parent
         method_call_seq = method_div.find_all('span', class_='method-callseq')
@@ -75,7 +75,7 @@ def get_ruby_methods():
         db.session.commit()
 
 @manager.command
-def get_js_methods():
+def get_js_array_methods():
     language = Language.query.filter_by(name='JavaScript').first()
     if language is None:
         language = Language(name='JavaScript')
