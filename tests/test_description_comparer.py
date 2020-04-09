@@ -1,5 +1,5 @@
 import pytest
-from flaskr.lib.nlp import DescriptionComparer
+from flaskr.lib.description_comparer import DescriptionComparer
 
 class TestDescriptionComparer:
     def setup(self):
