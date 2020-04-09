@@ -100,6 +100,16 @@ class LanguageObject(SQLAlchemyObjectType):
         model = Language
         interfaces = (graphene.relay.Node, )
 
+class SearchResultObject(SQLAlchemyObjectType):
+    class Meta:
+        model = SearchResult
+        interfaces = (graphene.relay.Node, )
+
+class MethodResultObject(SQLAlchemyObjectType):
+    class Meta:
+        model = MethodResult
+        interfaces = (graphene.relay.Node, )
+
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_methods = SQLAlchemyConnectionField(MethodObject)
