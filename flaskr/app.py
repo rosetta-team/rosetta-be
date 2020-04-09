@@ -44,6 +44,7 @@ class Language(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())
+
     methods = db.relationship('Method', backref='language')
 
     def __repr__(self):
@@ -62,6 +63,31 @@ class Method(db.Model):
 
     def __repr__(self):
         return '<Method %r>' % self.name
+
+class SearchResult(db.Model):
+    __tablename__ = 'search_results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    method_id = db.Column(db.Integer, db.ForeignKey('methods.id'))
+    target_language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
+    source_language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
+
+    def __repr__(self):
+        return '<SearchResult %r' % self.id
+
+class MethodResult(db.Model):
+    __tablename__ = 'method_results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    method_id = db.Column(db.Integer, db.ForeignKey('methods.id'))
+    search_result_id = db.Column(db.Integer, db.ForeignKey('search_results.id'))
+    relevance_rating = db.Column(db.Float)
+
+    method = db.relationship('Method', backref='method_results')
+    search_result = db.relationship('SearchResult', backref='method_results')
+
+    def __repr__(self):
+        return '<MethodResult %r' % self.id
 
 # schema objects
 class MethodObject(SQLAlchemyObjectType):
