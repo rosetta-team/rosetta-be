@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_graphql import GraphQLView
+from flask_cors import CORS
 
 load_dotenv()
 # App factory method to create instance of Flask app
@@ -34,9 +35,10 @@ def create_app(test_config=None):
 
     return app
 
-# Instantiate Flask app and SQLAlchemy ORM
+# Instantiate Flask app and SQLAlchemy ORM and CORS
 app = create_app()
 db = SQLAlchemy(app)
+cors = CORS(app, origins=['https://rosetta-fe.herokuapp.com','http://localhost:3000'])
 
 # Define models in relation to instantiated ORM
 class Language(db.Model):
