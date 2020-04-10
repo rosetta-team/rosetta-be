@@ -68,6 +68,7 @@
    ```
    python flaskr/manage.py get_ruby_methods
    python flaskr/manage.py get_js_methods
+   python flaskr/relevancy_rating_generator.py
    ```
 
 ### Starting Flask
