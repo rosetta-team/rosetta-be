@@ -31,3 +31,19 @@ def generate_method_results():
             fake_array.append(method_result)
             db.session.add(method_result)
             db.session.commit()
+
+def generate_relevancy_ratings():
+    method_results = MethodResult.query.all()
+    description_comparer = DescriptionComparer()
+    for result in method_results:
+        description_1 = result.method.description
+        description_2 = result.search_result.method.description
+
+        rating = description_comparer.compare(description_1, description_2)
+        result.relevance_rating = rating
+        db.session.commit()
+
+
+generate_search_results()
+generate_method_results()
+generate_relevancy_ratings()
