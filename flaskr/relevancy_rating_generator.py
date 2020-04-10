@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
-def search_result_generator():
+def generate_search_results():
     js_methods = Method.query.filter_by(language_id=2)
     ruby_methods = Method.query.filter_by(language_id=1)
 
