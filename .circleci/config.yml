@@ -13,6 +13,8 @@ jobs:
       - python/save-cache
       - run:
           command: |
+            psql -c 'create database rosetta_dev;' -U postgres
+            psql rosetta_dev < database_dump
             export FLASK_APP=flaskr/app
             export FLASK_ENV=development
             export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rosetta_dev"
