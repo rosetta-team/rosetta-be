@@ -77,6 +77,12 @@ Afterwards, run the following scripts to populate the database:
    python flaskr/manage.py get_js_methods
    python flaskr/relevancy_rating_generator.py
    ```
+### Clean the database
+If you need to clear your database, run the following commands:
+
+- Enter the psql console: `psql`
+- Connect with Rosetta database: `\c rosetta_dev`
+- Clear tables: `TRUNCATE TABLE [table_name] RESTART IDENTITY CASCADE;`  
 
 ### Starting Flask
 
