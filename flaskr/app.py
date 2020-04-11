@@ -74,6 +74,8 @@ class SearchResult(db.Model):
     target_language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
     source_language_id = db.Column(db.Integer, db.ForeignKey('languages.id'))
 
+    method = db.relationship('Method', backref='search_results')
+
     def __repr__(self):
         return '<SearchResult %r' % self.id
 
