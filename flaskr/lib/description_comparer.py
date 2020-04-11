@@ -10,4 +10,3 @@ class DescriptionComparer:
         doc2 = self.nlp(description2)
 
         return doc1.similarity(doc2)
-#test
