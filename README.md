@@ -73,8 +73,8 @@ NOTE: en_core_web_lg doesn't exist as a package in its own right on pypi.org or 
 Afterwards, run the following scripts to populate the database:
 
    ```
-   python flaskr/manage.py get_ruby_methods
-   python flaskr/manage.py get_js_methods
+   python flaskr/manage.py get_ruby_array_methods
+   python flaskr/manage.py get_js_array_methods
    python flaskr/relevancy_rating_generator.py
    ```
 ### Clean the database
