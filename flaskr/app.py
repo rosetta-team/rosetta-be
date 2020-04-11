@@ -118,6 +118,15 @@ class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_methods = SQLAlchemyConnectionField(MethodObject)
     all_languages = SQLAlchemyConnectionField(LanguageObject)
+    translations = graphene.Field(lambda: graphene.List(MethodObject),
+                                  method_id=graphene.Int(required=True),
+                                  target_language_id=graphene.Int(required=True))
+
+    def resolve_translations(parent, info, method_id, target_language_id):
+        return Method.query.join(MethodResult, MethodResult.method_id == Method.id).limit(3).all()
+        # return SearchResult.query.filter_by(method_id=method_id, target_language_id=target_language_id).first().\
+            # method_results.order_by(MethodResult.relevance_rating.desc()).\
+            # limit(5).all()
 
 schema = graphene.Schema(query=Query)
 
