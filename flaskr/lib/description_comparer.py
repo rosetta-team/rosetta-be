@@ -27,7 +27,7 @@ class DescriptionComparer:
 
 
     def compare(self, description1, description2):
-        doc1 = self.nlp(description1)
-        doc2 = self.nlp(description2)
+        doc1 = self.nlp(convert_special_chars(description1))
+        doc2 = self.nlp(convert_special_chars(description2))
 
         return doc1.similarity(doc2)
