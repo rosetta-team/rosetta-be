@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 from flask_graphql import GraphQLView
 from flask_cors import CORS
+from sqlalchemy import desc
 
 load_dotenv()
 # App factory method to create instance of Flask app
@@ -118,12 +119,16 @@ class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_methods = SQLAlchemyConnectionField(MethodObject)
     all_languages = SQLAlchemyConnectionField(LanguageObject)
-    translations = graphene.Field(lambda: graphene.List(MethodObject),
+    translations = graphene.Field(lambda: graphene.List(MethodResultObject),
                                   method_id=graphene.Int(required=True),
                                   target_language_id=graphene.Int(required=True))
 
     def resolve_translations(parent, info, method_id, target_language_id):
-        return Method.query.join(MethodResult, MethodResult.method_id == Method.id).limit(3).all()
+        return MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
+            join(SearchResult, MethodResult.search_result_id == SearchResult.id).\
+            filter_by(target_language_id = target_language_id, method_id = method_id).\
+            order_by(desc(MethodResult.relevance_rating)).\
+            limit(5).all()
         # return SearchResult.query.filter_by(method_id=method_id, target_language_id=target_language_id).first().\
             # method_results.order_by(MethodResult.relevance_rating.desc()).\
             # limit(5).all()
