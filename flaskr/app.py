@@ -86,6 +86,7 @@ class MethodResult(db.Model):
     method_id = db.Column(db.Integer, db.ForeignKey('methods.id'))
     search_result_id = db.Column(db.Integer, db.ForeignKey('search_results.id'))
     relevance_rating = db.Column(db.Float)
+    relevance_rating_title = db.Column(db.Float)
 
     method = db.relationship('Method', backref='method_results')
     search_result = db.relationship('SearchResult', backref='method_results')
