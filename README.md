@@ -64,14 +64,14 @@
     - If you encounter the error "Target database is not up to date," you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
     - If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
 
-- If you need to populate your database, run the following commands, but if possible, it's preferable to import this from an already populated database, such as the Rosetta production server database (to be added):
+- If you need to populate your database, read the instructions below, but if possible, it's preferable to import this from an already populated database, such as the Rosetta production server database (to be added):
 
 NOTE: en_core_web_lg doesn't exist as a package in its own right on pypi.org or Anaconda, so you can't just pip install it by name. Instead, you must run the following command:
 
 `python -m spacy download en_core_web_lg`
 
 Afterwards, run the following scripts to populate the database:
- 
+
    ```
    python flaskr/manage.py get_ruby_methods
    python flaskr/manage.py get_js_methods
