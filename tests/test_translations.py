@@ -1,38 +1,33 @@
 import json
 import pytest
-# from .conftest import client
-from graphene.test import Client
+from .conftest import client
+# from graphene.test import Client
 from flaskr.app import schema
 
-def test_translations():
-    print('hello world')
-    # import code; code.interact(local=dict(globals(), **locals()))
+def test_translations(client):
+    # print('hello world')
     query = """
     {
-        translations(sourceLanguageId: 1,targetLanguageId: 2,sourceMethodId: 58) {
-            sourceMethod {
-                name
-                snippet
-                syntax
-                description
-                docs_url
-            }
-            methodResults(first: 5) {
+        translations(targetLanguageId: 2,methodId: 58) {
+            name
+            snippet
+            syntax
+            description
+            docsUrl
+            methodResults {
                 edges {
                     node {
-                        name
-                        snippet
-                        syntax
-                        description
-                        docs_url
+                        relevanceRating
                     }
                 }
             }
         }
     }
     """
-    client = Client(schema)
-    response = client.execute(query)
+    # client = Client(schema)
+    # response = client.execute(query)
+    # import code; code.interact(local=locals())
+    response = client.post('/graphql', query)
     print(response)
-    print('I am here!')
+    # print('I am here!')
     # assert response == {
