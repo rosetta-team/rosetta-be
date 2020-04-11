@@ -3,7 +3,7 @@ import spacy
 class DescriptionComparer:
     def __init__(self):
         self.nlp = spacy.load('en_core_web_lg')
-        self.nlp.Defaults.stop_words |= {'Array', 'prototype', }
+        self.nlp.Defaults.stop_words |= {'Array', 'prototype', '()'}
 
     def convert_special_chars(self, word):
         conversion_dict = {
