@@ -3,7 +3,6 @@ from lib.description_comparer import DescriptionComparer
 from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
-import pry
 
 def generate_search_results():
     js_methods = Method.query.filter_by(language_id=2)
@@ -35,31 +34,19 @@ def generate_relevancy_ratings():
     method_results = MethodResult.query.all()
     description_comparer = DescriptionComparer()
     for result in method_results:
-        description_1 = result.method.description
-        description_2 = result.search_result.method.description
+        method_1_info = {'description':result.method.description, 'name':result.method.name}
+        method_2_info = {'description':result.search_result.method.description, 'name':result.search_result.method.name}
 
-        rating = description_comparer.compare(description_1, description_2)
-        result.relevance_rating = rating
+        description_rating = description_comparer.compare(method_1_info['description'], method_2_info['description'])
+        name_rating = description_comparer.compare(method_1_info['name'], method_2_info['name'])
+        result.relevance_rating_desciption = description_rating
+        result.relevance_rating_title = name_rating
+        result.weighted_relevancy_rating = calc_weighted_relevancy_rating(description_rating, name_rating)
         db.session.commit()
 
-def generate_relevancy_ratings_title():
-    method_results = MethodResult.query.all()
-    description_comparer = DescriptionComparer()
-    for result in method_results:
-        description_1 = result.method.name
-        description_2 = result.search_result.method.name
-        # print(description_1)
-        # print(description_2)
-        # import code; code.interact(local=dict(globals(), **locals()))
+def calc_weighted_relevancy_rating(description, name):
+    return (name * 6) + (description * 4)
 
-        rating = description_comparer.compare(description_1, description_2)
-        # result.relevance_rating_title = rating
-        # db.session.commit()
-
-
-
-
-# generate_search_results()
-# generate_method_results()
-# generate_relevancy_ratings()
-generate_relevancy_ratings_title()
+generate_search_results()
+generate_method_results()
+generate_relevancy_ratings()
