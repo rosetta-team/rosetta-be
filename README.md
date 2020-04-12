@@ -101,19 +101,18 @@ If you need to clear your database, run the following commands:
    - This will bring up the GraphiQL interface
    - To get top 5 results in target language as compared to a given method:
    ```
-   { translations(targetLanguageId: 2, methodId: 58)
-     {
-       	relevanceRating
-       	method {
-          id
-          name
-          description
-          syntax
-          snippet
-          docsUrl
-        }
-      }
-   }
+   { translations(targetLanguageId: 2, methodId: 54) {
+    	weightedRelevancyRating
+    	method {
+    	  id
+        name
+        description
+        syntax
+        snippet
+        docsUrl
+    	}
+  	}
+  }
    ```
    Example response:
    ```js
@@ -121,20 +120,9 @@ If you need to clear your database, run the following commands:
     "data": {
       "translations": [
         {
-          "relevanceRating": 0.954340557334369,
+          "weightedRelevancyRating": 0.987538288834886,
           "method": {
-            "id": "TWV0aG9kT2JqZWN0OjEyNw==",
-            "name": "Array.prototype.lastIndexOf()",
-            "description": "The lastIndexOf() method returns the last index at which a given element can be found in the array, or -1 if it is not present. The array is searched backwards, starting at fromIndex.",
-            "syntax": "arr.lastIndexOf(searchElement[, fromIndex])\n",
-            "snippet": "const animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];\n\nconsole.log(animals.lastIndexOf('Dodo'));\n// expected output: 3\n\nconsole.log(animals.lastIndexOf('Tiger'));\n// expected output: 1\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastIndexOf"
-          }
-        },
-        {
-          "relevanceRating": 0.950875159008615,
-          "method": {
-            "id": "TWV0aG9kT2JqZWN0OjEyNQ==",
+            "id": "125",
             "name": "Array.prototype.join()",
             "description": "The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.",
             "syntax": "arr.join([separator])",
@@ -143,36 +131,47 @@ If you need to clear your database, run the following commands:
           }
         },
         {
-          "relevanceRating": 0.949436453395991,
+          "weightedRelevancyRating": 0.836293728101979,
           "method": {
-            "id": "TWV0aG9kT2JqZWN0OjEyNA==",
-            "name": "Array.prototype.indexOf()",
-            "description": "The indexOf() method returns the first index at which a given element can be found in the array, or -1 if it is not present.",
-            "syntax": "arr.indexOf(searchElement[, fromIndex])",
-            "snippet": "const beasts = ['ant', 'bison', 'camel', 'duck', 'bison'];\n\nconsole.log(beasts.indexOf('bison'));\n// expected output: 1\n\n// start from index 2\nconsole.log(beasts.indexOf('bison', 2));\n// expected output: 4\n\nconsole.log(beasts.indexOf('giraffe'));\n// expected output: -1\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf"
+            "id": "139",
+            "name": "Array.prototype.toLocaleString()",
+            "description": "The toLocaleString() method returns a string representing the elements of the array. The elements are converted to Strings using their toLocaleString methods and these Strings are separated by a locale-specific String (such as a comma “,”).",
+            "syntax": "arr.toLocaleString([locales[, options]]);\n",
+            "snippet": "const array1 = [1, 'a', new Date('21 Dec 1997 14:12:00 UTC')];\nconst localeString = array1.toLocaleString('en', {timeZone: \"UTC\"});\n\nconsole.log(localeString);\n// expected output: \"1,a,12/21/1997, 2:12:00 PM\",\n// This assumes \"en\" locale and UTC timezone - your results may vary\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString"
           }
         },
         {
-          "relevanceRating": 0.948614270616461,
+          "weightedRelevancyRating": 0.823389635377448,
           "method": {
-            "id": "TWV0aG9kT2JqZWN0OjEzNQ==",
-            "name": "Array.prototype.slice()",
-            "description": "The slice() method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included) where begin and end represent the index of items in that array. The original array will not be modified.",
-            "syntax": "arr.slice([begin[, end]])\n",
-            "snippet": "const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];\n\nconsole.log(animals.slice(2));\n// expected output: Array [\"camel\", \"duck\", \"elephant\"]\n\nconsole.log(animals.slice(2, 4));\n// expected output: Array [\"camel\", \"duck\"]\n\nconsole.log(animals.slice(1, 5));\n// expected output: Array [\"bison\", \"camel\", \"duck\", \"elephant\"]\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+            "id": "116",
+            "name": "Array.prototype.fill()",
+            "description": "The fill() method changes all elements in an array to a static value, from a start index (default 0) to an end index (default array.length). It returns the modified array.",
+            "syntax": "arr.fill(value[, start[, end]])\n",
+            "snippet": "const array1 = [1, 2, 3, 4];\n\n// fill with 0 from position 2 until position 4\nconsole.log(array1.fill(0, 2, 4));\n// expected output: [1, 2, 0, 0]\n\n// fill with 5 from position 1\nconsole.log(array1.fill(5, 1));\n// expected output: [1, 5, 5, 5]\n\nconsole.log(array1.fill(6));\n// expected output: [6, 6, 6, 6]\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"
           }
         },
         {
-          "relevanceRating": 0.944798515639636,
+          "weightedRelevancyRating": 0.822077852943098,
           "method": {
-            "id": "TWV0aG9kT2JqZWN0OjExOQ==",
-            "name": "Array.prototype.findIndex()",
-            "description": "The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.",
-            "syntax": "arr.findIndex(callback( element[, index[, array]] )[, thisArg])\n",
-            "snippet": "const array1 = [5, 12, 8, 130, 44];\n\nconst isLargeNumber = (element) => element > 13;\n\nconsole.log(array1.findIndex(isLargeNumber));\n// expected output: 3\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex"
+            "id": "111",
+            "name": "Array.of()",
+            "description": "The Array.of() method creates a new Array instance from a variable number of arguments, regardless of number or type of the arguments.",
+            "syntax": "Array.of(element0[, element1[, ...[, elementN]]])",
+            "snippet": "Array.of(7);       // [7] \nArray.of(1, 2, 3); // [1, 2, 3]\n\nArray(7);          // array of 7 empty slots\nArray(1, 2, 3);    // [1, 2, 3]\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of"
+          }
+        },
+        {
+          "weightedRelevancyRating": 0.816790358470725,
+          "method": {
+            "id": "109",
+            "name": "Array.from()",
+            "description": "The Array.from() method creates a new, shallow-copied Array instance from an array-like or iterable object.",
+            "syntax": "Array.from(arrayLike [, mapFn [, thisArg]])\n",
+            "snippet": "console.log(Array.from('foo'));\n// expected output: Array [\"f\", \"o\", \"o\"]\n\nconsole.log(Array.from([1, 2, 3], x => x + x));\n// expected output: Array [2, 4, 6]\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from"
           }
         }
       ]
@@ -182,111 +181,76 @@ If you need to clear your database, run the following commands:
    - To get all languages:
    ```
    {
-     allLanguages{
-       edges{
-         node{
-           name
-           id
-           }
-         }
-       }
-     }
-  ```
-  - To get all methods:
-  ```
-  {
-    allMethods{
-      edges{
-        node{
-          name
-          }
-        }
-      }
-    }
-  ```
-  - To get all methods with language node:
-  ```
-  {
-    allMethods{
-      edges{
-        node{
-          name
-          snippet
-          language {
-            name
-          }
-        }
+    allLanguages {
+      id
+      name
+      methods {
+  			id
+        name
       }
     }
   }
   ```
-  - To get the first 5 methods of the 1st language:
-  ```
-  {
-    allLanguages(first:1){
-      edges{
-        node{
-          name
-          methods(first:5) {
-            edges {
-              node {
-                name
-                description
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ```
-  Example Response:
+  Example output (partial):
   ```js
   {
-    "data": {
-      "allLanguages": {
-        "edges": [
+  "data": {
+    "allLanguages": [
+      {
+        "id": "1",
+        "name": "Ruby",
+        "methods": [
           {
-            "node": {
-              "name": "Ruby",
-              "methods": {
-                "edges": [
-                  {
-                    "node": {
-                      "name": "Array::[]",
-                      "description": "Returns a new array populated with the given objects.\n"
-                    }
-                  },
-                  {
-                    "node": {
-                      "name": "Array::new",
-                      "description": "Returns a new array.\nIn the first form, if no arguments are sent, the new array will be empty.\nWhen a size and an optional default are sent, an\narray is created with size copies of default. \nTake notice that all elements will reference the same object\ndefault.\nThe second form creates a copy of the array passed as a parameter (the\narray is generated by calling #to_ary on the parameter).\nIn the last form, an array of the given size is created.  Each element in\nthis array is created by passing the element's index to the given block\nand storing the return value.\nWhen sending the second parameter, the same object will be used as the\nvalue for all the array elements:\nSince all the Array elements store the same hash,\nchanges to one of them will affect them all.\nIf multiple copies are what you want, you should use the block version\nwhich uses the result of that block each time an element of the array needs\nto be initialized:\n"
-                    }
-                  },
-                  {
-                    "node": {
-                      "name": "Array::try_convert",
-                      "description": "Tries to convert obj into an array, using to_ary\nmethod.  Returns the converted array or nil if\nobj cannot be converted for any reason. This method can be\nused to check if an argument is an array.\n"
-                    }
-                  },
-                  {
-                    "node": {
-                      "name": "Array#&",
-                      "description": "Set Intersection — Returns a new array containing unique elements common to\nthe two arrays. The order is preserved from the original array.\nIt compares elements using their hash and eql? methods for efficiency.\nSee also #uniq.\n"
-                    }
-                  },
-                  {
-                    "node": {
-                      "name": "Array#*",
-                      "description": "Repetition — With a String argument, equivalent\nto ary.join(str).\nOtherwise, returns a new array built by concatenating the int\ncopies of self.\n"
-                    }
-                  }
-                ]
-              }
-            }
-          }
+            "id": "1",
+            "name": "Array::[]"
+          },
+          {
+            "id": "2",
+            "name": "Array::new"
+          },
+          {
+            "id": "3",
+            "name": "Array::try_convert"
+          },
+          {
+            "id": "4",
+            "name": "Array#&"
+          },
+          {
+            "id": "5",
+            "name": "Array#*"
+          },
+          // ...
+        ]
+      },
+      {
+        "id": "2",
+        "name": "JavaScript",
+        "methods": [
+          {
+            "id": "109",
+            "name": "Array.from()"
+          },
+          {
+            "id": "110",
+            "name": "Array.isArray()"
+          },
+          {
+            "id": "111",
+            "name": "Array.of()"
+          },
+          {
+            "id": "112",
+            "name": "Array.prototype.concat()"
+          },
+          {
+            "id": "113",
+            "name": "Array.prototype.copyWithin()"
+          },
+          // ...
         ]
       }
-    }
+    ]
   }
-  ```
+}
+```
