@@ -29,8 +29,8 @@ class DescriptionComparer:
         return word
 
     def preprocess_doc(self, text):
-        self.break_camelcase(text)
-        doc = self.nlp(text)
+        text = self.break_camelcase(text)
+        doc = convert_special_chars(self.nlp(text))
         filtered_doc = [word for word in doc if word.text not in self.nlp.Defaults.stop_words]
         return ' '.join(map(str, filtered_doc))
 
@@ -44,6 +44,6 @@ class DescriptionComparer:
 
 
     def compare(self, description1, description2):
-        doc1 = self.nlp(self.convert_special_chars(self.preprocess_doc(description1)))
-        doc2 = self.nlp(self.convert_special_chars(self.preprocess_doc(description2)))
+        doc1 = self.nlp(self.preprocess_doc(description1))
+        doc2 = self.nlp(self.preprocess_doc(description2))
         return doc1.similarity(doc2)
