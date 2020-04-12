@@ -20,4 +20,4 @@ def test_translations(client):
     """
     client = Client(schema)
     response = client.execute(query)
-    assert response['data']
+    assert response
