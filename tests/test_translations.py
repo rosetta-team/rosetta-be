@@ -6,7 +6,7 @@ def test_translations(client):
     query = """
     { translations(targetLanguageId: 2, methodId: 58)
         {
-          	relevanceRating
+          	weightedRelevancyRating
           	method {
           	  id
               name
@@ -20,4 +20,4 @@ def test_translations(client):
     """
     client = Client(schema)
     response = client.execute(query)
-    assert response
+    assert response['data']
