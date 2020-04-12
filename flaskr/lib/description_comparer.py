@@ -3,7 +3,7 @@ import spacy
 class DescriptionComparer:
     def __init__(self):
         self.nlp = spacy.load('en_core_web_lg')
-        self.nlp.Defaults.stop_words |= {'Array', 'prototype', '()', 'returns'}
+        self.nlp.Defaults.stop_words |= {'Array', 'prototype', '(', ')', 'returns'}
 
     def convert_special_chars(self, word):
         conversion_dict = {
@@ -15,7 +15,9 @@ class DescriptionComparer:
             '<=>':'find',
             '==':'equals',
             '[]':'find',
-            '#':' '
+            '#':' ',
+             '.':' '
+             '::',' '
         }
 
         special_symbols = conversion_dict.keys()
