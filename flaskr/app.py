@@ -97,10 +97,15 @@ class MethodObject(SQLAlchemyObjectType):
         model = Method
         interfaces = (graphene.relay.Node, )
 
+    id = graphene.NonNull(graphene.ID)
+
 class LanguageObject(SQLAlchemyObjectType):
     class Meta:
         model = Language
         interfaces = (graphene.relay.Node, )
+
+    methods = graphene.List(MethodObject)
+    id = graphene.NonNull(graphene.ID)
 
 class SearchResultObject(SQLAlchemyObjectType):
     class Meta:
@@ -115,10 +120,13 @@ class MethodResultObject(SQLAlchemyObjectType):
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_methods = SQLAlchemyConnectionField(MethodObject)
-    all_languages = SQLAlchemyConnectionField(LanguageObject)
+    all_languages = graphene.Field(lambda: graphene.List(LanguageObject))
     translations = graphene.Field(lambda: graphene.List(MethodResultObject),
                                   method_id=graphene.Int(required=True),
                                   target_language_id=graphene.Int(required=True))
+
+    def resolve_all_languages(parent, info):
+        return Language.query.all();
 
     def resolve_translations(parent, info, method_id, target_language_id):
         return MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
@@ -126,9 +134,6 @@ class Query(graphene.ObjectType):
             filter_by(target_language_id = target_language_id, method_id = method_id).\
             order_by(desc(MethodResult.relevance_rating)).\
             limit(5).all()
-        # return SearchResult.query.filter_by(method_id=method_id, target_language_id=target_language_id).first().\
-            # method_results.order_by(MethodResult.relevance_rating.desc()).\
-            # limit(5).all()
 
 schema = graphene.Schema(query=Query)
 
