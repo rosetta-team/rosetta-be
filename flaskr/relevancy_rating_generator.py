@@ -46,9 +46,9 @@ def generate_relevancy_ratings():
 
 def calc_weighted_relevancy_rating(description, name):
     if name >= 0.7:
-        return ((name * 7) + (description * 3)) + 0.5
+        return ((name * 8) + (description * 2)) / 10
     else:
-        return (name * 2) + (description * 8)
+        return ((name * 2) + (description * 8)) / 10
 
 generate_search_results()
 generate_method_results()
