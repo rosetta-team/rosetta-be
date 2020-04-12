@@ -132,7 +132,7 @@ class Query(graphene.ObjectType):
         return MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
             join(SearchResult, MethodResult.search_result_id == SearchResult.id).\
             filter_by(target_language_id = target_language_id, method_id = method_id).\
-            order_by(desc(MethodResult.relevance_rating)).\
+            order_by(desc(MethodResult.weighted_relevancy_rating)).\
             limit(5).all()
 
 schema = graphene.Schema(query=Query)
