@@ -5,7 +5,7 @@ class DescriptionComparer:
         self.nlp = spacy.load('en_core_web_lg')
         self.nlp.Defaults.stop_words |= {'prototype', '(', ')', 'returns'}
 
-    def convert_special_chars(self, word):
+    def convert_special_chars(self, str):
         conversion_dict = {
             '<<':'push',
             '&':'intersection',
@@ -23,25 +23,24 @@ class DescriptionComparer:
 
         symbols = conversion_dict.keys()
         for symbol in symbols:
-            if symbol in word:
-                word = word.replace(symbol, conversion_dict[symbol])
+            if symbol in str:
+                str = str.replace(symbol, conversion_dict[symbol])
 
-        return word
+        return str
 
     def preprocess_doc(self, text):
         text = self.break_camelcase(text)
-        doc = convert_special_chars(self.nlp(text))
+        converted_text = self.convert_special_chars(text)
+        doc = self.nlp(converted_text)
         filtered_doc = [word for word in doc if word.text not in self.nlp.Defaults.stop_words]
         return ' '.join(map(str, filtered_doc))
 
     def break_camelcase(self, text):
         for letter in text:
-            if letter.isupper():
+            if letter.isupper() and text.index(letter) != 0:
                 text = text.replace(letter, f" {letter}")
 
         return text
-
-
 
     def compare(self, description1, description2):
         doc1 = self.nlp(self.preprocess_doc(description1))
