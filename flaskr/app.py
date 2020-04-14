@@ -84,12 +84,22 @@ class MethodResult(db.Model):
     relevance_rating_desciption = db.Column(db.Float)
     relevance_rating_title = db.Column(db.Float)
     weighted_relevancy_rating = db.Column(db.Float)
+    user_score = db.Column(db.Float)
 
     method = db.relationship('Method', backref='method_results')
     search_result = db.relationship('SearchResult', backref='method_results')
 
     def __repr__(self):
         return '<MethodResult %r' % self.id
+
+class UserVote(db.Model):
+    __tablename__ = 'user_votes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    method_result_id = db.Column(db.Integer, db.ForeignKey('method_results.id'))
+    type = db.Column(db.String)
+
+    method_result = db.relationship('MethodResult', backref='user_votes')
 
 # schema objects
 class MethodObject(SQLAlchemyObjectType):
