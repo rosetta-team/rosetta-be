@@ -159,7 +159,13 @@ class CreateVote(graphene.Mutation):
     vote = graphene.Field(lambda: UserVoteObject)
     def mutation(self, info, method_result_id, type):
         method_result = MethodResult.query.find(id=method_result_id)
-        vote = UserVote(method_result_id=method_result.id, type=type)              
+        vote = UserVote(method_result_id=method_result.id, type=type)
+        db.session.add(vote)
+        db.session.commit()
+        self.update_relevancy(method_result)
+
+    def update_relevancy(self, method_result):
+        
 
 schema = graphene.Schema(query=Query)
 
