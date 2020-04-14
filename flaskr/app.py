@@ -127,6 +127,11 @@ class MethodResultObject(SQLAlchemyObjectType):
         model = MethodResult
         interfaces = (graphene.relay.Node, )
 
+class UserVoteObject(SQLAlchemyObjectType):
+    class Meta:
+        model = UserVote
+        interfaces = (graphene.relay.Node, )
+
 class Query(graphene.ObjectType):
     node = graphene.relay.Node.Field()
     all_methods = SQLAlchemyConnectionField(MethodObject)
@@ -144,6 +149,17 @@ class Query(graphene.ObjectType):
             filter_by(target_language_id = target_language_id, method_id = method_id).\
             order_by(desc(MethodResult.weighted_relevancy_rating)).\
             limit(5).all()
+
+
+class CreateVote(graphene.Mutation):
+    class Arguments:
+        method_result_id = graphene.Integer(required=True)
+        type = graphene.String(required=True)
+
+    vote = graphene.Field(lambda: UserVoteObject)
+    def mutation(self, info, method_result_id, type):
+        method_result = MethodResult.query.find(id=method_result_id)
+        vote = UserVote(method_result_id=method_result.id, type=type)              
 
 schema = graphene.Schema(query=Query)
 
