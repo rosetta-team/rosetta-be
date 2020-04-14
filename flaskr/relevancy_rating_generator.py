@@ -43,14 +43,15 @@ def generate_relevancy_ratings():
         name_rating = description_comparer.compare(method_1_info['name'], method_2_info['name'])
         result.relevance_rating_desciption = description_rating
         result.relevance_rating_title = name_rating
-        result.weighted_relevancy_rating = calc_weighted_relevancy_rating(description_rating, name_rating)
+        db.session.commit()
+        result.weighted_relevancy_rating = result.calc_weighted_relevancy_rating()
         db.session.commit()
 
-def calc_weighted_relevancy_rating(description, name):
-    if name >= 0.7:
-        return ((name * 8) + (description * 2)) / 10
-    else:
-        return description
+# def calc_weighted_relevancy_rating(description, name):
+#     if name >= 0.7:
+#         return ((name * 8) + (description * 2)) / 10
+#     else:
+#         return description
 
 generate_search_results()
 generate_method_results()
