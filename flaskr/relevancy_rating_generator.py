@@ -20,12 +20,14 @@ def generate_search_results():
 
 def generate_method_results():
     search_results = SearchResult.query.all()
-    js_methods = Method.query.filter_by(language_id=2)
-    ruby_methods = Method.query.filter_by(language_id=1)
+    methods = {
+        1:Method.query.filter_by(language_id=1), #ruby methods
+        2:Method.query.filter_by(language_id=2)  #javascript methods
+    }
 
     for result in search_results:
-        methods = Method.query.filter_by(language_id=result.target_language_id)
-        for method in methods:
+        methods_ = methods[result.target_language_id]
+        for method in methods_:
             method_result = MethodResult(method_id=method.id, search_result_id=result.id)
             db.session.add(method_result)
             db.session.commit()
