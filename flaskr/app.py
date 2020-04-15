@@ -99,12 +99,16 @@ class MethodResult(db.Model):
             return self.relevance_rating_description
 
     def update_user_score(self):
-        upvotes = [vote for vote in self.user_votes if vote.type == 'up']
-        score_percentage = ((len(upvotes)) / len(self.user_votes))
-        new_weighted_relevancy_rating = (score_percentage * 0.5) + (self.calc_weighted_relevancy_rating() * 0.5)
-        self.weighted_relevancy_rating = new_weighted_relevancy_rating
-        self.user_score = score_percentage
-        db.session.commit()
+        if len(self.user_votes) > 0:
+            upvotes = [vote for vote in self.user_votes if vote.type == 'up']
+            score_percentage = ((len(upvotes)) / len(self.user_votes))
+            new_weighted_relevancy_rating = (score_percentage * 0.5) + (self.calc_weighted_relevancy_rating() * 0.5)
+            self.weighted_relevancy_rating = new_weighted_relevancy_rating
+            self.user_score = score_percentage
+            db.session.commit()
+        else:
+            self.weighted_relevancy_rating = self.calc_weighted_relevancy_rating
+            db.session.commit()    
 
 
 class UserVote(db.Model):
@@ -115,6 +119,15 @@ class UserVote(db.Model):
     type = db.Column(db.String)
 
     method_result = db.relationship('MethodResult', backref='user_votes')
+
+    def __repr__(self):
+        return '<UserVote %r' % self.type
+
+    def delete_and_update_method_result(self):
+        method_result = self.method_result
+        db.session.delete(self)
+        db.session.commit()
+        method_result.update_user_score()
 
 # schema objects
 class MethodObject(SQLAlchemyObjectType):
