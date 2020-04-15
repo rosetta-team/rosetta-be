@@ -81,7 +81,7 @@ class MethodResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     method_id = db.Column(db.Integer, db.ForeignKey('methods.id'))
     search_result_id = db.Column(db.Integer, db.ForeignKey('search_results.id'))
-    relevance_rating_desciption = db.Column(db.Float)
+    relevance_rating_description = db.Column(db.Float)
     relevance_rating_title = db.Column(db.Float)
     weighted_relevancy_rating = db.Column(db.Float)
     user_score = db.Column(db.Float)
@@ -159,11 +159,11 @@ class Query(graphene.ObjectType):
 
 class CreateVote(graphene.Mutation):
     class Arguments:
-        method_result_id = graphene.Integer(required=True)
+        method_result_id = graphene.NonNull(graphene.ID)
         type = graphene.String(required=True)
 
     vote = graphene.Field(lambda: UserVoteObject)
-    def mutation(self, info, method_result_id, type):
+    def mutate(self, info, method_result_id, type):
         method_result = MethodResult.query.find(id=method_result_id)
         vote = UserVote(method_result_id=method_result.id, type=type)
         db.session.add(vote)
