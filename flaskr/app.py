@@ -98,6 +98,7 @@ class MethodResult(db.Model):
         else:
             return self.relevance_rating_description
 
+
 class UserVote(db.Model):
     __tablename__ = 'user_votes'
 
@@ -162,13 +163,15 @@ class CreateVote(graphene.Mutation):
         method_result_id = graphene.NonNull(graphene.ID)
         type = graphene.String(required=True)
 
-    vote = graphene.Field(lambda: UserVoteObject)
+    results = graphene.Field(lambda: graphene.List(MethodResultObject))
     def mutate(self, info, method_result_id, type):
-        method_result = MethodResult.query.find(id=method_result_id)
+        method_result = MethodResult.query.get(method_result_id)
         vote = UserVote(method_result_id=method_result.id, type=type)
         db.session.add(vote)
         db.session.commit()
         self.update_relevancy(method_result)
+
+        return CreateVote(vote=vote)
 
     def update_relevancy(self, method_result):
         score_percentage = ((len(method_result.user_votes.filter_by(type='up'))) / len(method_result.user_votes))
@@ -176,7 +179,10 @@ class CreateVote(graphene.Mutation):
         method_result.weighted_relevancy_rating = new_weighted_relevancy_rating
         db.session.commit()
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    create_vote = CreateVote.Field()
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
 
 # additional routes, needs to come after schema is defined
 app.add_url_rule(
