@@ -185,12 +185,6 @@ class CreateVote(graphene.Mutation):
             order_by(desc(MethodResult.weighted_relevancy_rating)).\
             limit(5).all()
 
-    # def update_relevancy(self, method_result):
-    #     score_percentage = ((len(method_result.user_votes.filter_by(type='up'))) / len(method_result.user_votes))
-    #     new_weighted_relevancy_rating = (score_percentage * 0.5) + (method_result.calc_weighted_relevancy_rating() * 0.5)
-    #     method_result.weighted_relevancy_rating = new_weighted_relevancy_rating
-    #     db.session.commit()
-
 class Mutation(graphene.ObjectType):
     create_vote = CreateVote.Field()
 
