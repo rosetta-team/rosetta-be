@@ -167,23 +167,25 @@ class Query(graphene.ObjectType):
 
 
 class CreateVote(graphene.Mutation):
+    results = graphene.Field(lambda: graphene.List(MethodResultObject))
+
     class Arguments:
         method_result_id = graphene.NonNull(graphene.ID)
         type = graphene.String(required=True)
 
-    results = graphene.Field(lambda: graphene.List(MethodResultObject))
     def mutate(self, info, method_result_id, type):
         method_result = MethodResult.query.get(method_result_id)
         vote = UserVote(method_result_id=method_result.id, type=type)
         db.session.add(vote)
         db.session.commit()
         method_result.update_user_score()
-
-        return MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
+        method_results = MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
             join(SearchResult, MethodResult.search_result_id == SearchResult.id).\
-            filter_by(target_language_id = method_result.search_result.target_language_id, method_id = method_result.search_result.method_id).\
+            filter_by(id = method_result.search_result.id).\
             order_by(desc(MethodResult.weighted_relevancy_rating)).\
             limit(5).all()
+
+        return method_results
 
 class Mutation(graphene.ObjectType):
     create_vote = CreateVote.Field()
