@@ -31,8 +31,8 @@ class RelevancyRatingGenerator:
     def generate_method_results(self):
         search_results = SearchResult.query.all()
         methods = {
-            1:Method.query.filter_by(language_id=1), #ruby methods
-            2:Method.query.filter_by(language_id=2)  #javascript methods
+            1:self.ruby_methods,
+            2:self.js_methods  
         }
 
         for result in search_results:
