@@ -96,7 +96,7 @@ class MethodResult(db.Model):
         if self.relevance_rating_title >= 0.7:
             return ((self.relevance_rating_title * 8) + (self.relevance_rating_description * 2)) / 10
         else:
-            return self.relevance_rating_desciption
+            return self.relevance_rating_description
 
 class UserVote(db.Model):
     __tablename__ = 'user_votes'
