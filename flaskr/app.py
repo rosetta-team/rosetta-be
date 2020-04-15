@@ -108,7 +108,8 @@ class MethodResult(db.Model):
             db.session.commit()
         else:
             self.weighted_relevancy_rating = self.calc_weighted_relevancy_rating
-            db.session.commit()    
+            self.user_score = None
+            db.session.commit()
 
 
 class UserVote(db.Model):
