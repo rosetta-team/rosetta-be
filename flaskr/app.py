@@ -122,7 +122,7 @@ class UserVote(db.Model):
     method_result = db.relationship('MethodResult', backref='user_votes')
 
     def __repr__(self):
-        return '<UserVote %r' % self.type
+        return '<UserVote %r' % self.id
 
     def delete_and_update_method_result(self):
         method_result = self.method_result
