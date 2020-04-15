@@ -142,6 +142,8 @@ class MethodResultObject(SQLAlchemyObjectType):
         model = MethodResult
         interfaces = (graphene.relay.Node, )
 
+    id = graphene.NonNull(graphene.ID)
+
 class UserVoteObject(SQLAlchemyObjectType):
     class Meta:
         model = UserVote
