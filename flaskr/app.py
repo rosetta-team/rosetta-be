@@ -98,6 +98,14 @@ class MethodResult(db.Model):
         else:
             return self.relevance_rating_description
 
+    def update_user_score(self):
+        upvotes = [vote for vote in self.user_votes if vote.type == 'up']
+        score_percentage = ((len(upvotes)) / len(self.user_votes))
+        new_weighted_relevancy_rating = (score_percentage * 0.5) + (self.calc_weighted_relevancy_rating() * 0.5)
+        self.weighted_relevancy_rating = new_weighted_relevancy_rating
+        self.user_score = score_percentage
+        db.session.commit()
+
 
 class UserVote(db.Model):
     __tablename__ = 'user_votes'
@@ -169,15 +177,19 @@ class CreateVote(graphene.Mutation):
         vote = UserVote(method_result_id=method_result.id, type=type)
         db.session.add(vote)
         db.session.commit()
-        self.update_relevancy(method_result)
+        method_result.update_user_score()
 
-        return CreateVote(vote=vote)
+        return MethodResult.query.join(Method, MethodResult.method_id == Method.id).\
+            join(SearchResult, MethodResult.search_result_id == SearchResult.id).\
+            filter_by(target_language_id = method_result.search_result.target_language_id, method_id = method_result.search_result.method_id).\
+            order_by(desc(MethodResult.weighted_relevancy_rating)).\
+            limit(5).all()
 
-    def update_relevancy(self, method_result):
-        score_percentage = ((len(method_result.user_votes.filter_by(type='up'))) / len(method_result.user_votes))
-        new_weighted_relevancy_rating = (score_percentage * 0.5) + (method_result.calc_weighted_relevancy_rating() * 0.5)
-        method_result.weighted_relevancy_rating = new_weighted_relevancy_rating
-        db.session.commit()
+    # def update_relevancy(self, method_result):
+    #     score_percentage = ((len(method_result.user_votes.filter_by(type='up'))) / len(method_result.user_votes))
+    #     new_weighted_relevancy_rating = (score_percentage * 0.5) + (method_result.calc_weighted_relevancy_rating() * 0.5)
+    #     method_result.weighted_relevancy_rating = new_weighted_relevancy_rating
+    #     db.session.commit()
 
 class Mutation(graphene.ObjectType):
     create_vote = CreateVote.Field()
