@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 import requests
 from bs4 import BeautifulSoup
 # Import application, database, and models
-from app import app, db, Language, Method, SearchResult, MethodResult
+from app import app, db, Language, Method, SearchResult, MethodResult, UserVote
 
 # Instantiate Migrate and Manager
 migrate = Migrate(app, db)
@@ -19,7 +19,8 @@ def make_shell_context():
                 Language=Language,
                 Method=Method,
                 SearchResult=SearchResult,
-                MethodResult=MethodResult)
+                MethodResult=MethodResult,
+                UserVote=UserVote)
 manager.add_command('shell', Shell(make_context=make_shell_context))
 
 # helper methods used in the ruby method below
