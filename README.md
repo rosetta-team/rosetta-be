@@ -82,7 +82,7 @@ If you need to clear your database, run the following commands:
 
 - Enter the psql console: `psql`
 - Connect with Rosetta database: `\c rosetta_dev`
-- Clear tables: `TRUNCATE TABLE [table_name] RESTART IDENTITY CASCADE;`  
+- Clear tables: `TRUNCATE TABLE [table_name] RESTART IDENTITY CASCADE;`
 
 ### Starting Flask
 
@@ -101,7 +101,8 @@ If you need to clear your database, run the following commands:
    - This will bring up the GraphiQL interface
    - To get top 5 results in target language as compared to a given method:
    ```
-   { translations(targetLanguageId: 2, methodId: 54) {
+   { translations(targetLanguageId: 2, methodId: 89) {
+    	id
     	weightedRelevancyRating
     	method {
     	  id
@@ -113,70 +114,75 @@ If you need to clear your database, run the following commands:
     	}
   	}
   }
-   ```
-   Example response:
-   ```js
-   {
-    "data": {
-      "translations": [
-        {
-          "weightedRelevancyRating": 0.987538288834886,
-          "method": {
-            "id": "125",
-            "name": "Array.prototype.join()",
-            "description": "The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.",
-            "syntax": "arr.join([separator])",
-            "snippet": "const elements = ['Fire', 'Air', 'Water'];\n\nconsole.log(elements.join());\n// expected output: \"Fire,Air,Water\"\n\nconsole.log(elements.join(''));\n// expected output: \"FireAirWater\"\n\nconsole.log(elements.join('-'));\n// expected output: \"Fire-Air-Water\"\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
-          }
-        },
-        {
-          "weightedRelevancyRating": 0.836293728101979,
-          "method": {
-            "id": "139",
-            "name": "Array.prototype.toLocaleString()",
-            "description": "The toLocaleString() method returns a string representing the elements of the array. The elements are converted to Strings using their toLocaleString methods and these Strings are separated by a locale-specific String (such as a comma “,”).",
-            "syntax": "arr.toLocaleString([locales[, options]]);\n",
-            "snippet": "const array1 = [1, 'a', new Date('21 Dec 1997 14:12:00 UTC')];\nconst localeString = array1.toLocaleString('en', {timeZone: \"UTC\"});\n\nconsole.log(localeString);\n// expected output: \"1,a,12/21/1997, 2:12:00 PM\",\n// This assumes \"en\" locale and UTC timezone - your results may vary\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString"
-          }
-        },
-        {
-          "weightedRelevancyRating": 0.823389635377448,
-          "method": {
-            "id": "116",
-            "name": "Array.prototype.fill()",
-            "description": "The fill() method changes all elements in an array to a static value, from a start index (default 0) to an end index (default array.length). It returns the modified array.",
-            "syntax": "arr.fill(value[, start[, end]])\n",
-            "snippet": "const array1 = [1, 2, 3, 4];\n\n// fill with 0 from position 2 until position 4\nconsole.log(array1.fill(0, 2, 4));\n// expected output: [1, 2, 0, 0]\n\n// fill with 5 from position 1\nconsole.log(array1.fill(5, 1));\n// expected output: [1, 5, 5, 5]\n\nconsole.log(array1.fill(6));\n// expected output: [6, 6, 6, 6]\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill"
-          }
-        },
-        {
-          "weightedRelevancyRating": 0.822077852943098,
-          "method": {
-            "id": "111",
-            "name": "Array.of()",
-            "description": "The Array.of() method creates a new Array instance from a variable number of arguments, regardless of number or type of the arguments.",
-            "syntax": "Array.of(element0[, element1[, ...[, elementN]]])",
-            "snippet": "Array.of(7);       // [7] \nArray.of(1, 2, 3); // [1, 2, 3]\n\nArray(7);          // array of 7 empty slots\nArray(1, 2, 3);    // [1, 2, 3]\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of"
-          }
-        },
-        {
-          "weightedRelevancyRating": 0.816790358470725,
-          "method": {
-            "id": "109",
-            "name": "Array.from()",
-            "description": "The Array.from() method creates a new, shallow-copied Array instance from an array-like or iterable object.",
-            "syntax": "Array.from(arrayLike [, mapFn [, thisArg]])\n",
-            "snippet": "console.log(Array.from('foo'));\n// expected output: Array [\"f\", \"o\", \"o\"]\n\nconsole.log(Array.from([1, 2, 3], x => x + x));\n// expected output: Array [2, 4, 6]\n",
-            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from"
-          }
-        }
-      ]
-    }
-  }
+  ```
+  Example response:
+  ```js
+    {
+     "data": {
+       "translations": [
+         {
+           "id": "7317",
+           "weightedRelevancyRating": 0.97647710108909,
+           "method": {
+             "id": "135",
+             "name": "Array.prototype.slice()",
+             "description": "The slice() method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included) where begin and end represent the index of items in that array. The original array will not be modified.",
+             "syntax": "arr.slice([begin[, end]])\n",
+             "snippet": "const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];\n\nconsole.log(animals.slice(2));\n// expected output: Array [\"camel\", \"duck\", \"elephant\"]\n\nconsole.log(animals.slice(2, 4));\n// expected output: Array [\"camel\", \"duck\"]\n\nconsole.log(animals.slice(1, 5));\n// expected output: Array [\"bison\", \"camel\", \"duck\", \"elephant\"]\n",
+             "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+           }
+         },
+         {
+           "id": "7301",
+           "weightedRelevancyRating": 0.900370010855081,
+           "method": {
+             "id": "119",
+             "name": "Array.prototype.findIndex()",
+             "description": "The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.",
+             "syntax": "arr.findIndex(callback( element[, index[, array]] )[, thisArg])\n",
+             "snippet": "const array1 = [5, 12, 8, 130, 44];\n\nconst isLargeNumber = (element) => element > 13;\n\nconsole.log(array1.findIndex(isLargeNumber));\n// expected output: 3\n",
+             "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex"
+           }
+         },
+         {
+           "id": "7307",
+           "weightedRelevancyRating": 0.835100513965771,
+           "method": {
+             "id": "125",
+             "name": "Array.prototype.join()",
+             "description": "The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.",
+             "syntax": "arr.join([separator])",
+             "snippet": "const elements = ['Fire', 'Air', 'Water'];\n\nconsole.log(elements.join());\n// expected output: \"Fire,Air,Water\"\n\nconsole.log(elements.join(''));\n// expected output: \"FireAirWater\"\n\nconsole.log(elements.join('-'));\n// expected output: \"Fire-Air-Water\"\n",
+             "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
+           }
+         },
+         {
+           "id": "7292",
+           "weightedRelevancyRating": 0.834279735840426,
+           "method": {
+             "id": "111",
+             "name": "Array.of()",
+             "description": "The Array.of() method creates a new Array instance from a variable number of arguments, regardless of number or type of the arguments.",
+             "syntax": "Array.of(element0[, element1[, ...[, elementN]]])",
+             "snippet": "Array.of(7);       // [7] \nArray.of(1, 2, 3); // [1, 2, 3]\n\nArray(7);          // array of 7 empty slots\nArray(1, 2, 3);    // [1, 2, 3]\n",
+             "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of"
+           }
+         },
+         {
+           "id": "7291",
+           "weightedRelevancyRating": 0.832082262294994,
+           "method": {
+             "id": "110",
+             "name": "Array.isArray()",
+             "description": "The Array.isArray() method determines whether the passed value is an Array.",
+             "syntax": "Array.isArray(value)",
+             "snippet": "Array.isArray([1, 2, 3]);  // true\nArray.isArray({foo: 123}); // false\nArray.isArray('foobar');   // false\nArray.isArray(undefined);  // false\n",
+             "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"
+           }
+         }
+       ]
+     }
+   }
   ```
    - To get all languages:
    ```
@@ -254,3 +260,89 @@ If you need to clear your database, run the following commands:
   }
 }
 ```
+ - To create a user upvote or downvote and retrieve updated top 5 results:
+ ```
+   mutation	{
+    createVote(methodResultId: 603, type: "down") {
+      id
+      weightedRelevancyRating
+      method {
+        id
+        name
+        syntax
+        snippet
+        description
+        docsUrl
+      }
+    }
+  }
+  ```
+  Example output:
+  ```
+    {
+    "data": {
+      "translations": [
+        {
+          "id": "7317",
+          "weightedRelevancyRating": 0.97647710108909,
+          "method": {
+            "id": "135",
+            "name": "Array.prototype.slice()",
+            "description": "The slice() method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included) where begin and end represent the index of items in that array. The original array will not be modified.",
+            "syntax": "arr.slice([begin[, end]])\n",
+            "snippet": "const animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];\n\nconsole.log(animals.slice(2));\n// expected output: Array [\"camel\", \"duck\", \"elephant\"]\n\nconsole.log(animals.slice(2, 4));\n// expected output: Array [\"camel\", \"duck\"]\n\nconsole.log(animals.slice(1, 5));\n// expected output: Array [\"bison\", \"camel\", \"duck\", \"elephant\"]\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice"
+          }
+        },
+        {
+          "id": "7301",
+          "weightedRelevancyRating": 0.900370010855081,
+          "method": {
+            "id": "119",
+            "name": "Array.prototype.findIndex()",
+            "description": "The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.",
+            "syntax": "arr.findIndex(callback( element[, index[, array]] )[, thisArg])\n",
+            "snippet": "const array1 = [5, 12, 8, 130, 44];\n\nconst isLargeNumber = (element) => element > 13;\n\nconsole.log(array1.findIndex(isLargeNumber));\n// expected output: 3\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex"
+          }
+        },
+        {
+          "id": "7307",
+          "weightedRelevancyRating": 0.835100513965771,
+          "method": {
+            "id": "125",
+            "name": "Array.prototype.join()",
+            "description": "The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.",
+            "syntax": "arr.join([separator])",
+            "snippet": "const elements = ['Fire', 'Air', 'Water'];\n\nconsole.log(elements.join());\n// expected output: \"Fire,Air,Water\"\n\nconsole.log(elements.join(''));\n// expected output: \"FireAirWater\"\n\nconsole.log(elements.join('-'));\n// expected output: \"Fire-Air-Water\"\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join"
+          }
+        },
+        {
+          "id": "7292",
+          "weightedRelevancyRating": 0.834279735840426,
+          "method": {
+            "id": "111",
+            "name": "Array.of()",
+            "description": "The Array.of() method creates a new Array instance from a variable number of arguments, regardless of number or type of the arguments.",
+            "syntax": "Array.of(element0[, element1[, ...[, elementN]]])",
+            "snippet": "Array.of(7);       // [7] \nArray.of(1, 2, 3); // [1, 2, 3]\n\nArray(7);          // array of 7 empty slots\nArray(1, 2, 3);    // [1, 2, 3]\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of"
+          }
+        },
+        {
+          "id": "7291",
+          "weightedRelevancyRating": 0.832082262294994,
+          "method": {
+            "id": "110",
+            "name": "Array.isArray()",
+            "description": "The Array.isArray() method determines whether the passed value is an Array.",
+            "syntax": "Array.isArray(value)",
+            "snippet": "Array.isArray([1, 2, 3]);  // true\nArray.isArray({foo: 123}); // false\nArray.isArray('foobar');   // false\nArray.isArray(undefined);  // false\n",
+            "docsUrl": "https://developer.mozilla.org//en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray"
+          }
+        }
+      ]
+    }
+  }
+  ```
