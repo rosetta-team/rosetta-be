@@ -167,7 +167,7 @@ class Query(graphene.ObjectType):
 
 
 class CreateVote(graphene.Mutation):
-    results = graphene.Field(lambda: graphene.List(MethodResultObject))
+    Output = graphene.List(MethodResultObject)
 
     class Arguments:
         method_result_id = graphene.NonNull(graphene.ID)
@@ -184,7 +184,6 @@ class CreateVote(graphene.Mutation):
             filter_by(id = method_result.search_result.id).\
             order_by(desc(MethodResult.weighted_relevancy_rating)).\
             limit(5).all()
-
         return method_results
 
 class Mutation(graphene.ObjectType):
