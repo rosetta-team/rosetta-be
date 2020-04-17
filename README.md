@@ -143,6 +143,10 @@ Both the back-end and front-end of the live Rosetta app are deployed on Heroku, 
       ```
       CREATE DATABASE rosetta_dev;
       ```
+- Create a file named `.env` in the `/flaskr` directory, and inside it add this line:
+  ```
+  DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/rosetta_dev"
+  ```
 
 At this point you can populate your database from scratch by running the scripts below, but it's preferable to import this from an already populated database to avoid excessive hits to the official language docs.
 
@@ -211,6 +215,11 @@ git clone git@github.com:rosetta-team/rosetta-fe.git
 To run back-end test suite:
 ```
 pytest
+```
+
+To configure the included `coverage` module to run without additional arguments, as below, run the following (should only need to do so once):
+```
+coverage -m pytest
 ```
 
 To run test coverage report:
