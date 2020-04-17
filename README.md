@@ -25,6 +25,8 @@
 - Visit the deployed Rosetta app at http://rosetta-fe.herokuapp.com.
 - Visit the interactive GraphiQL interface at http://rosetta-server.herokuapp.com/graphql.
 
+![Screenshot of front-end results component](public/results_screenshot.png)
+
 ## Introduction
 
 Rosetta is Google Translate for programming languages. It eases the process of learning new languages by translating a built-in function in a language you know into the closest equivalent in one you don’t. It does this by scraping official language docs using BeautifulSoup and comparing them using spaCy (a ML-powered natural language processing library) in the Python/Flask back-end, which the React/Redux front-end interacts with using Apollo Client and GraphQL.
@@ -44,7 +46,7 @@ Rosetta's dev team is:
 
 ## Technologies and Frameworks
 
-![Architecture Diagram](architecture_diagram.png)
+![Architecture Diagram](public/architecture_diagram.png)
 
 - Back-End
   - Language: Python
@@ -126,30 +128,44 @@ Both the back-end and front-end of the live Rosetta app are deployed on Heroku, 
 
 #### Database Setup
 
+![PostgreSQL Schema Diagram](public/db_schema_diagram.png)
+
 - Install PostgreSQL with Homebrew
-    ```
-    brew install postgresql
-    ```
+  ```
+  brew install postgresql
+  ```
 - Create database from terminal
     - Open interactive PostgreSQL session:
-        ```
-        psql
-        ```
+      ```
+      psql
+      ```
     - Enter SQL command to create empty database:
-        ```
-        CREATE DATABASE rosetta_dev;
-        ```
+      ```
+      CREATE DATABASE rosetta_dev;
+      ```
+
+At this point you can populate your database from scratch by running the scripts below, but it's preferable to import this from an already populated database to avoid excessive hits to the official language docs.
+
+This is possible by restoring the "dumpfile" contained in the root directory of the back-end repo. You can read instructions on how to do this [in these official PostgreSQL docs](https://www.postgresql.org/docs/9.4/backup-dump.html), or simply run the following command while in the rosetta-be repo directory:
+  ```
+  psql rosetta_dev < database_dump
+  ```
+
+This will recreate all the tables and relationships and data that would be created by the following scripts and migrations, and you can skip the rest of this section.
+
+Alternatively, if you choose to populate the database from scratch, follow the instructions below. Note that, because these scripts rely upon web-scraping official documentation websites which may change without notice, these may cease to function as expected.
 - Run migrations to add tables to database
-    ```
-    python flaskr/manage.py db upgrade
-    ```
-    - If you encounter the error "Target database is not up to date," you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
-    - If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
-- If you need to populate your database, read the instructions below, but if possible, it's preferable to import this from an already populated database, such as the Rosetta production server database (to be added):
+```
+python flaskr/manage.py db upgrade
+```
+- If you encounter the error "Target database is not up to date," you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
+- If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
+
 
 NOTE: en_core_web_lg doesn't exist as a package in its own right on pypi.org or Anaconda, so you can't just pip install it by name. Instead, you must run the following command:
-
-`python -m spacy download en_core_web_lg`
+  ```
+  python -m spacy download en_core_web_lg
+  ```
 
 Afterwards, run the following scripts to populate the database:
 
@@ -159,8 +175,9 @@ Afterwards, run the following scripts to populate the database:
    python flaskr/relevancy_rating_generator.py
    ```
 
-If you need to clear your database, run the following commands:
+At this point your database should be populated.
 
+If at any point something goes wrong and you need to reset a particular table, run the following commands:
 - Enter the psql console: `psql`
 - Connect with Rosetta database: `\c rosetta_dev`
 - Clear tables: `TRUNCATE TABLE [table_name] RESTART IDENTITY CASCADE;`
@@ -229,6 +246,8 @@ open coverage/lcov-report/index.html
 ```
 
 ### GraphQL
+
+![GraphiQL interface screenshot](public/graphiql_screenshot.png)
 
 When running the back-end server locally, the interactive GraphiQL interface can be accessed at `localhost:5000/graphql`. There, you can run actual queries and mutations against the back-end and view the automated documentation of the schema and queries.
 
@@ -373,66 +392,66 @@ Returns all languages in the database and (optionally) their associated methods 
 - Example Response (abridged):
   ```js
   {
-  "data": {
-    "allLanguages": [
-      {
-        "id": "1",
-        "name": "Ruby",
-        "methods": [
-          {
-            "id": "1",
-            "name": "Array::[]"
-          },
-          {
-            "id": "2",
-            "name": "Array::new"
-          },
-          {
-            "id": "3",
-            "name": "Array::try_convert"
-          },
-          {
-            "id": "4",
-            "name": "Array#&"
-          },
-          {
-            "id": "5",
-            "name": "Array#*"
-          },
-          // ...
-        ]
-      },
-      {
-        "id": "2",
-        "name": "JavaScript",
-        "methods": [
-          {
-            "id": "109",
-            "name": "Array.from()"
-          },
-          {
-            "id": "110",
-            "name": "Array.isArray()"
-          },
-          {
-            "id": "111",
-            "name": "Array.of()"
-          },
-          {
-            "id": "112",
-            "name": "Array.prototype.concat()"
-          },
-          {
-            "id": "113",
-            "name": "Array.prototype.copyWithin()"
-          },
-          // ...
-        ]
-      }
-    ]
+    "data": {
+      "allLanguages": [
+        {
+          "id": "1",
+          "name": "Ruby",
+          "methods": [
+            {
+              "id": "1",
+              "name": "Array::[]"
+            },
+            {
+              "id": "2",
+              "name": "Array::new"
+            },
+            {
+              "id": "3",
+              "name": "Array::try_convert"
+            },
+            {
+              "id": "4",
+              "name": "Array#&"
+            },
+            {
+              "id": "5",
+              "name": "Array#*"
+            },
+            // ...
+          ]
+        },
+        {
+          "id": "2",
+          "name": "JavaScript",
+          "methods": [
+            {
+              "id": "109",
+              "name": "Array.from()"
+            },
+            {
+              "id": "110",
+              "name": "Array.isArray()"
+            },
+            {
+              "id": "111",
+              "name": "Array.of()"
+            },
+            {
+              "id": "112",
+              "name": "Array.prototype.concat()"
+            },
+            {
+              "id": "113",
+              "name": "Array.prototype.copyWithin()"
+            },
+            // ...
+          ]
+        }
+      ]
+    }
   }
-}
-```
+  ```
 
 ##### `createVote` Mutation
 
@@ -456,7 +475,7 @@ Creates a user vote record in the database associated with a particular method r
   }
   ```
 - Example Response:
-  ```
+  ```js
     {
     "data": {
       "translations": [
