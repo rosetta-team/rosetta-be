@@ -158,15 +158,16 @@ This is possible by restoring the "dumpfile" contained in the root directory of 
 This will recreate all the tables and relationships and data that would be created by the following scripts and migrations, and you can skip the rest of this section.
 
 Alternatively, if you choose to populate the database from scratch, follow the instructions below. Note that, because these scripts rely upon web-scraping official documentation websites which may change without notice, these may cease to function as expected.
-- Run migrations to add tables to database
+
+Run the Alembic migrations to add tables to database:
 ```
 python flaskr/manage.py db upgrade
 ```
-- If you encounter the error "Target database is not up to date," you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
-- If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
+  - If you run this subsequent times, you might encounter the error "Target database is not up to date," which means you are likely out of sync with the migrations. Run `python flaskr/manage.py db stamp head` to set the current state of your database as "head," then re-attempt to run `db upgrade`.
+  - If you had to drop your DB in development, you might need to run `python flaskr/manage.py db migrate` before `python flaskr/manage.py db upgrade`.
 
 
-NOTE: en_core_web_lg doesn't exist as a package in its own right on pypi.org or Anaconda, so you can't just pip install it by name. Instead, you must run the following command:
+spaCy requires downloading an additional file to perform the natural language processing to create the weighted relevancy ratings. `en_core_web_lg` doesn't exist as a package in its own right on pypi.org or Anaconda, so you can't just pip install it by name. Instead, you must run the following command:
   ```
   python -m spacy download en_core_web_lg
   ```
