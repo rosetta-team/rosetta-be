@@ -22,17 +22,19 @@ class RelevancyRatingGenerator:
             search_result = SearchResult(target_language_id=1, source_language_id=2, method_id=method.id)
             db.session.add(search_result)
             db.session.commit()
+            print('Created ', search_result)
 
         for method in self.ruby_methods:
             search_result = SearchResult(target_language_id=2, source_language_id=1, method_id=method.id)
             db.session.add(search_result)
             db.session.commit()
+            print('Created ', search_result)
 
     def generate_method_results(self):
         search_results = SearchResult.query.all()
         methods = {
             1:self.ruby_methods,
-            2:self.js_methods  
+            2:self.js_methods
         }
 
         for result in search_results:
@@ -41,6 +43,7 @@ class RelevancyRatingGenerator:
                 method_result = MethodResult(method_id=method.id, search_result_id=result.id)
                 db.session.add(method_result)
                 db.session.commit()
+                print('Created ', method_result)
 
     def generate_relevancy_ratings(self):
         method_results = MethodResult.query.all()
@@ -56,6 +59,7 @@ class RelevancyRatingGenerator:
             db.session.commit()
             result.weighted_relevancy_rating = result.calc_weighted_relevancy_rating()
             db.session.commit()
+            print('Generated ratings for ', result)
 
 # run scripts
 RelevancyRatingGenerator.execute()
