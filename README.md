@@ -28,6 +28,8 @@
 ## Introduction
 
 Rosetta is Google Translate for programming languages. It eases the process of learning new languages by translating a built-in function in a language you know into the closest equivalent in one you don’t. It does this by scraping official language docs using BeautifulSoup and comparing them using spaCy (a ML-powered natural language processing library) in the Python/Flask back-end, which the React/Redux front-end interacts with using Apollo Client and GraphQL.
+ 
+  ![ros](https://user-images.githubusercontent.com/16090626/79530071-8ade6080-802b-11ea-9806-de125d7a9919.gif)
 
 ## Repos
 
