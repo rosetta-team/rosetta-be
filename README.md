@@ -10,9 +10,9 @@
   - [Local Deployment](#local-deployment)
     - [Back-End Instructions](#back-end-instructions)
       - [Python and Flask Setup](#python-and-flask-setup)
-      - [Database Setup](#postgresql-setup)
+      - [Database Setup](#database-setup)
       - [Starting Flask Server](#starting-flask-server)
-    - [Front-End Instructions](#front-end-setup)
+    - [Front-End Instructions](#front-end-instructions)
   - [Testing and Test Coverage](#testing-and-test-coverage)
     - [Back-End Testing](#back-end-testing)
     - [Front-End Testing](#front-end-testing)
@@ -79,7 +79,7 @@ Both the back-end and front-end of the live Rosetta app are deployed on Heroku, 
 
 ### Back-End Instructions
 
-#### Python & Flask Setup
+#### Python and Flask Setup
 
 - Clone this repo to your local machine using SSH:
   ```
