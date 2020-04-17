@@ -25,7 +25,7 @@
 - Visit the deployed Rosetta app at http://rosetta-fe.herokuapp.com.
 - Visit the interactive GraphiQL interface at http://rosetta-server.herokuapp.com/graphql.
 
-![Screenshot of front-end results component](public/results_screenshot.png)
+![GIF animation of interacting with Rosetta](https://user-images.githubusercontent.com/16090626/79530071-8ade6080-802b-11ea-9806-de125d7a9919.gif)
 
 ## Introduction
 
